@@ -1,0 +1,37 @@
+//find all subsets of an array with recursion
+
+import java.util.ArrayList;
+
+public class prac {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		ArrayList<Integer> test_arr=new ArrayList<Integer>();
+		test_arr.add(1);
+		test_arr.add(2);
+		test_arr.add(3);
+		test_arr.add(4);
+		test_arr.add(5);
+		find_subarray(test_arr);
+		System.out.println(myList);
+
+	}
+	 static ArrayList<ArrayList<Integer>> myList = new ArrayList<ArrayList<Integer>>();
+	static void find_subarray(ArrayList<Integer> arr){
+		
+		if ((arr.size()==1||arr.size()==0) && !myList.contains(arr)){
+			myList.add(arr);	
+		}
+		else{
+			if (!myList.contains(arr))
+				myList.add(arr);
+			
+			for (int i=0;i<arr.size();i++){
+				ArrayList <Integer> temp=new ArrayList<Integer>();
+				temp.addAll(arr);
+				temp.remove(i);
+				find_subarray(temp);	
+			}			
+		}	
+	}
+}
