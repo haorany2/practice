@@ -1,0 +1,161 @@
+package practice;
+
+
+
+public class prac {
+	
+	static class Node{
+		int value;
+		Node next;
+		Node(int i,Node n){
+			this.value=i;
+			this.next=n;
+			
+		}
+		Node(int n) {
+	          this.value = n;                                              
+	          this.next = null;
+	       }
+	}
+	static Node head;
+	
+	static void display(){
+		for(Node i=head;i!=null;i=i.next){
+			System.out.println(i.value);
+		}
+	}
+	
+	
+	
+	//reverse the whole thing
+	static Node reverse(){
+		Node curr=null;
+		Node prev=head;
+		while (head!=null){
+			prev=head.next;
+			head.next=curr;
+			curr=head;
+			head=prev;
+			
+		}
+		return curr;
+	}
+	
+	
+	//reverse from ith to jth item
+	static Node reverse2(Node head1,int i, int j){
+		Node curr=head1;
+		for (int k=0;k<j-1;k++){
+			curr=curr.next;
+		}
+		Node stop=curr.next;
+		Node last_connect=curr;
+		curr=curr.next;// the right start curr position
+		
+		
+		Node prev=head1;
+		for (int k=0;k<i-2;k++){
+			prev=prev.next;
+		}
+		Node start=null;
+		if (i!=1)
+			start=prev.next;
+		if (i==1) {
+			start=prev;
+			//System.out.println("check"+start.value);
+		}
+		Node first_connect=prev;
+		
+		
+		if (stop==null){
+			while(start!=null){
+				prev=start.next;
+				start.next=curr;
+				curr=start;
+				start=prev;
+			}
+		}
+		if (stop!=null){
+			while(start.value!=stop.value){
+				//System.out.println("check"+start.value);
+				prev=start.next;
+				start.next=curr;
+				curr=start;
+				start=prev;
+			
+			}
+		}
+		if (i!=1)
+			first_connect.next=last_connect;
+		if (i==1)
+			return curr;
+		
+		return head1;
+		
+		
+	}
+	
+	
+	//reverser in each n items
+	static Node reverse3(Node headx,int n){
+		int counter=0;
+		int accumulator=0;
+		int count=0;
+		Node parse=headx;
+		Node headxx=null;
+		//headx=reverse2(headx,4,6);
+		//headx=reverse2(headx,1,3);
+		while (parse!=null){
+			parse=parse.next;
+			
+			accumulator++;
+			
+		}
+		while(count<accumulator){
+			count++;
+			counter++;
+			if (counter==n){
+				counter=0;
+				headx=reverse2(headx,count-n+1,count);
+			
+			}
+		}
+		
+		return headx;		
+	}
+	
+	
+	
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		
+		
+		
+		
+		for(int i=12;i>0;i--){
+
+			head=new Node(i,head);
+		}
+
+//		head=new Node(1);
+//		head.next=new Node(2);
+//		head.next.next=new Node(3);
+//		head.next.next.next=new Node(4);
+//		head.next.next.next.next=new Node(5);
+//		head.next.next.next.next.next=new Node(6);
+//		head.next.next.next.next.next.next=new Node(7);
+		
+		
+		
+		//head=reverse2(head,1,3);
+		head=reverse3(head,2);
+		//System.out.println(head.value);
+		
+		display();
+		
+		
+		
+	}
+	
+	
+}
