@@ -1,0 +1,263 @@
+package practice;
+
+
+
+ public class prac {
+	
+	 static class Node{
+		int value;
+		Node left;
+		Node right;
+		Node(int i,Node l,Node r){
+			this.value=i;
+			this.left=l;
+			this.right=r;
+		}
+		Node(int n) {
+	          this.value = n;                                              
+	          this.left = null;
+	          this.right = null;
+	       }
+	}
+	static Node root;
+	
+	
+	static void display(Node root,int space){
+		
+			
+		if (root==null)
+			return;
+		space+=2;
+		display(root.right,space);
+		System.out.println("");
+		for (int i=0;i<space;i++)
+			System.out.print(" ");
+		
+		System.out.print(root.value);
+		display(root.left,space);
+		
+	}
+	static Node insert(Node rot, int v){
+		if (rot==null){
+			rot=new Node(v);
+			
+			
+		}
+		
+		else if( v<rot.value ){
+			rot.left= insert(rot.left,v);
+		}
+		else if( v>rot.value ){
+			rot.right= insert(rot.right,v);
+		}
+		else
+			return rot;
+		return rot;
+	}
+	
+	static Node find(Node rot, int i){
+		if (rot==null)
+			return null;
+		else{
+			if (rot.value==i)
+				return rot;
+			else if(i>rot.value)
+				return find(rot.right,i);
+			else
+				return find(rot.left,i);
+				
+			}
+		}
+	
+	
+	//utility function for remove, 
+	//all situations are handled
+	static Node get_parent(Node rot, int i){
+		Node paren=rot;
+		//Node curr=rot;
+		
+		if (paren!=null&&i< paren.value){
+			if (paren.left==null)
+				return null;
+			else if (i==paren.left.value)
+				return paren;
+			else 
+				paren=get_parent(paren.left, i);
+			
+		}	
+		
+		if (paren!=null&&i> paren.value){
+			if (paren.right==null)
+				return null;
+			else if (i==paren.right.value)
+				return paren;
+			else 
+				paren=get_parent(paren.right, i);
+		}
+		if (paren!=null &&i== paren.value)
+			return null;
+		return paren;
+		
+		
+	}
+	
+	//root.left.right.right......find the largest value that smaller than rot value
+	static Node maximum_min_value(Node rot){
+		if (rot==null)
+			return null;
+		if (rot.left==null){
+			if (rot.right==null)
+				return null;
+			else{
+				return rot.right;
+			}
+		}
+		if (rot.right==null){
+			if (rot.left==null)
+				return null;
+			else{
+				return rot.left;
+			}
+			
+		}
+		Node temp=rot.left;
+		
+		while(temp.right!=null){
+			temp=temp.right;
+		}
+		return temp;
+		
+	}
+	
+	static Node max(Node rot){
+		while (rot.right!=null)
+			rot=rot.right;
+		//Node temp=rot;
+		return rot;
+	}
+	static Node remove(Node rot, int rem){
+		if (rot==null)
+			return null;
+		
+		if (rem<rot.value)
+			rot.left= remove(rot.left,rem);
+		else if (rem>rot.value)
+			rot.right= remove(rot.right,rem);
+		else {
+			if (rot.left!=null &&rot.right==null)
+				return rot.left;
+			else if (rot.left==null &&rot.right!=null)
+				return rot.right;
+			else if (rot.left==null &&rot.right==null)
+				return null;
+			else {
+				if (rot.left.right==null){
+					rot.value=rot.left.value;
+					rot.left=rot.left.left;
+					rot.right=rot.left.right;
+				}
+				int temp=max(rot.left).value;
+				rot.value=temp;
+				rot.left=remove(rot.left,temp);
+			}
+		}
+		return rot;
+		
+//		Node paran=get_parent(rot, rem);
+//		Node removal=find(rot, rem);
+//		if (paran!=null ){
+//			Node temp=maximum_min_value(removal);
+//			if (rem<paran.value ){
+//				
+//				if (temp==null){
+//					paran.left=null;
+//				}
+//				else if (removal.left==null &&removal.right!=null){
+//					paran.left=temp;
+//				}
+//				else if (removal.left!=null&& removal.right==null){
+//					paran.left=temp;
+//				}
+//				else if (removal.left!=null &&removal.right!=null){
+//					Node paren_broke=get_parent(rot,temp.value);
+//					//System.out.println("paren_broke"+paren_broke.value);
+//					Node broke=(temp.value<paren_broke.value)?paren_broke.left:paren_broke.right;
+//					paran.value=broke.value;
+//					broke=null;
+//				}
+//			}
+//			if (rem>paran.value ){
+//				
+//				if (temp==null){
+//					paran.right=null;
+//				}
+//				else if (removal.left==null &&removal.right!=null){
+//					paran.right=temp;
+//				}
+//				else if (removal.left!=null&& removal.right==null){
+//					paran.right=temp;
+//				}
+//				else if (removal.left!=null &&removal.right!=null){
+//					Node paren_broke=get_parent(rot,temp.value);
+//					System.out.println("paren_broke"+paren_broke.value);
+//					Node broke=(temp.value<paren_broke.value)?paren_broke.left:paren_broke.right;
+//					System.out.println("broke_broke"+broke.value);
+//					removal.value=broke.value;
+//					paren_broke.left=null;
+//					broke=null;
+//				}
+//			}
+//			
+//			
+//			
+//		}
+//		else
+//			return null;
+//		
+//		return removal;
+//			
+//		
+		
+		
+	}
+//	
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		
+		
+		
+		
+
+
+		root=new Node(21);
+		root.left=new Node(15);
+		root.left.left=new Node(10);
+		root.left.right=new Node(13);
+		root.right=new Node(30);
+		root.right.left=new Node(25);
+		root.right.right=new Node(35);
+//		
+//		
+		root=insert(root,1);
+		
+//		root=insert(root,5);
+//		root=insert(root,3);
+//		root=insert(root,4);
+//		root=insert(root,7);
+		Node head=root;
+		root=insert(root,17);
+		root=insert(root,6);
+		root=insert(root,2);
+		remove(root,21);
+		
+		//System.out.println(maximum_min_value(root.left).value);// test maximum_min_value utility function
+		//System.out.println(head.value);
+		//System.out.println(get_parent(root,1).value); // test get_parent utility function
+		display(head, 0);
+		
+		
+		
+	}
+	
+	
+}
