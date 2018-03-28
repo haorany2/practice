@@ -1,0 +1,107 @@
+//correct_parenthesis check whether the format of parenthesis is correct. 
+//return true or false
+//longest_parenthesis allows the wrong format. find the longest correct part.
+//return the length of the correct part
+
+//because we use left parse, so if right side parenthesis is more, we cut it,
+//and assume the stuff before the cut point is correct. 
+//if the left side parenthesis is more, such as ((), everything starting from 
+//the first extra left side parenthesis is wrong
+
+import java.util.Stack;
+import java.util.Deque;
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.LinkedList;
+public class prac {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+		
+		String s="(()()))(()(())))(()";
+		System.out.println(longest_parenthesis(s));
+		
+		//mergesort(test_arr,0,9);
+
+	}
+	 static ArrayList<ArrayList<Integer>> myList = new ArrayList<ArrayList<Integer>>();
+	 
+	 
+	 static boolean correct_parenthesis(String s){
+		 Stack<Character> check=new Stack <Character> ();
+		 for(int i=0;i<s.length();i++){
+			 if (s.charAt(i)=='('){
+				 check.push(s.charAt(i));
+			 }
+			 if (s.charAt(i)==')'){
+				 if(check.empty())
+					 return false;
+				 check.pop();
+			 } 
+		 }
+		 if (!check.empty()){
+			 return false;
+		 }
+		 return true;	 
+	 }
+	 
+	 static int longest_parenthesis(String s){
+		 
+		 Deque <Integer> check=new ArrayDeque<Integer>(s.length());
+		 for (int i=0;i<s.length();i++){
+			 if (s.charAt(i)=='('){
+				 check.offerFirst(-i-1);
+			 }
+			 if (s.charAt(i)==')'){
+				 if (!check.isEmpty() && check.getFirst()<0)
+					 check.removeFirst();
+				 else{
+					 check.offerLast(i);
+				 }
+			 }
+			 
+		 }
+//		while (check.size()!=0)  //for test purpose
+//			System.out.println(check.pop());
+		 
+		 if (check.isEmpty())
+			 return s.length();
+		 if (check.getFirst()>=0){
+			 int prev=0;
+			 int curr=check.pop();
+			 int difference=curr-prev;
+			 while (check.size()>0){
+				 prev=curr;
+				 curr=check.pop();
+				 if (curr-prev-1>difference)
+					 difference=curr-prev-1;
+			 }
+			 difference=(difference>s.length()-1-curr)?difference:s.length()-1-curr;
+			 
+			 return difference;
+			 
+		 }
+		 if (check.getFirst()<=0){
+			 int end=-check.pop()-1;
+			
+			 while(check.size()!=0 &&check.getFirst()<0)
+				 check.pop();
+			 if (check.size()==0) 
+				 return 0;
+			 int prev=0;
+			 int curr=check.pop();
+			 int difference=curr-prev;
+			 while (check.size()>0){
+				 prev=curr;
+				 curr=check.pop();
+				 if (curr-prev-1>difference)
+					 difference=curr-prev-1;
+			 }
+			 difference=(difference>end-1-curr)?difference:end-1-curr;
+			 return difference;
+		 }
+		return 0;
+		 
+	 }
+}
