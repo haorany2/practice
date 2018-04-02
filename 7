@@ -1,0 +1,70 @@
+//mergesort
+import java.util.Stack;
+import java.util.Deque;
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Hashtable;
+
+public class prac {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+		int test_arr[] =new int[]{10,1,5,2,6,4,7,9,8,3};
+		//int test_arr[] =new int[]{1,10,5};
+		 
+		
+		
+		
+		mergesort(test_arr,0,9);
+		for (int i=0;i<test_arr.length;i++)
+			System.out.println(test_arr[i]);
+
+	}
+	 //static ArrayList<ArrayList<Integer>> myList = new ArrayList<ArrayList<Integer>>();//dont need it here
+	 
+	 
+	 
+	 
+	static void mergesort(int arr[],int left_low,int right_high){
+		if (left_low<right_high){
+			mergesort(arr,left_low,(left_low+right_high)/2);
+			mergesort(arr,(left_low+right_high)/2+1,right_high);
+			merge_utility(arr,left_low,(left_low+right_high)/2+1,right_high);
+		}
+		
+	}
+	static void  merge_utility(int arr[] ,int left_low, int right_low, int right_high){
+		int j=left_low;
+		int k=right_low;
+		
+		int length=right_high-left_low+1;
+		ArrayList<Integer> temp=new ArrayList<Integer> (length);
+		while (j<right_low && k<=right_high){
+			if (arr[j]>arr[k]){
+				//System.out.println("come1:"+arr[j]);
+				temp.add(arr[j++]);
+				
+			}
+			
+			else if (arr[k]>=arr[j]){
+				//System.out.println("come2:"+arr[k]);
+				temp.add(arr[k++]);
+			
+			}
+			
+		}
+		while (j<right_low){
+			//System.out.println("come3:"+arr[j]);
+			temp.add(arr[j++]);
+		}
+		while (k<=right_high){
+			//System.out.println("come4:"+arr[k]);
+			temp.add(arr[k++]);
+		}
+		for (int i=0;i<length;i++)
+			arr[left_low+i]=temp.get(i);
+			
+	}
+}
