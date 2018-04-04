@@ -1,10 +1,13 @@
 package practice;
 
+import java.util.ArrayList;
+import java.util.*;
+import java.util.Stack;
 
-
- public class prac {
+public class prac {
 	
 	 static class Node{
+		 boolean right_to_left;
 		int value;
 		Node left;
 		Node right;
@@ -71,7 +74,7 @@ package practice;
 	
 	
 	//utility function for remove, 
-	//all situations are handled
+	//all situations are handled//dont need it anymore
 	static Node get_parent(Node rot, int i){
 		Node paren=rot;
 		//Node curr=rot;
@@ -101,7 +104,7 @@ package practice;
 		
 	}
 	
-	//root.left.right.right......find the largest value that smaller than rot value
+	//root.left.right.right......find the largest value that smaller than rot value//no need for this func
 	static Node maximum_min_value(Node rot){
 		if (rot==null)
 			return null;
@@ -216,10 +219,103 @@ package practice;
 //		
 //		return removal;
 //			
-//		
-		
+//			
 		
 	}
+	static void Breadth_First(Node rot){
+		LinkedList<Node> temp=new LinkedList<Node>();
+		if (rot!=null)
+			temp.add(rot);
+		//Node pop_term=temp.remove();
+		while(temp.size()!=0){    
+			Node pop_term=temp.remove();
+			System.out.println("bredth_first:"+pop_term.value);
+			if (pop_term.left!=null)
+				temp.add(pop_term.left);
+			
+			if (pop_term.right!=null)
+				temp.add(pop_term.right);
+		}	
+	}
+	
+	
+	static void snake_go(Node rot){
+		
+		LinkedList<Node> temp1=new LinkedList<Node>();
+		Deque<Node> temp2=new LinkedList<Node>();
+		if (rot!=null){
+			temp1.add(rot);
+			System.out.println("snake go:"+temp1.get(0).value);
+			}
+		//int counter=temp.size();
+		boolean right_to_left=false;
+		while ( temp1.size()!=0){
+			if(right_to_left==false){
+				for(int i=0;i<temp1.size();i++){
+					if(temp1.get(i).left!=null){
+						temp2.addLast(temp1.get(i).left);
+						System.out.println("snake go:"+temp1.get(i).left.value);
+					}
+					if(temp1.get(i).right!=null){
+						temp2.addLast(temp1.get(i).right);
+						System.out.println("snake go:"+temp1.get(i).right.value);
+					}
+				}
+				temp1.removeAll(temp1);
+				temp1.addAll(temp2);
+				temp2.removeAll(temp2);
+				right_to_left=true;
+			}
+			else{
+				for(int i=0;i<temp1.size();i++){
+					if(temp1.get(i).left!=null){
+						temp2.addLast(temp1.get(i).left);
+						
+					}
+					if(temp1.get(i).right!=null){
+						temp2.addLast(temp1.get(i).right);
+						
+					}
+					
+					
+					
+				}
+				temp1.removeAll(temp1);
+				temp1.addAll(temp2);
+				int k=temp2.size();
+				for(int i=0;i<k;i++){
+					System.out.println("snake go:"+temp2.removeLast().value);
+				}
+				
+				
+				//temp2.removeAll(temp2);
+				right_to_left=false;
+				
+			}
+			
+			
+		}
+		
+	}
+	static void in_order(Node rot){
+		Stack<Node> temp=new Stack<Node>();
+		if (rot!=null)
+			temp.add(rot);
+		//Node pop_term=temp.remove();
+		while(temp.size()!=0){    
+			Node pop_term=temp.pop();
+			System.out.println("in order:"+pop_term.value);
+			if (pop_term.right!=null)
+				temp.push(pop_term.right);
+			
+			if (pop_term.left!=null)
+				temp.push(pop_term.left);
+			
+			
+		}	
+	}
+	
+	
 //	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
@@ -248,8 +344,10 @@ package practice;
 		root=insert(root,17);
 		root=insert(root,6);
 		root=insert(root,2);
-		remove(root,21);
-		
+		//remove(root,21);
+		Breadth_First(root);
+		in_order(root);
+		snake_go(root);
 		//System.out.println(maximum_min_value(root.left).value);// test maximum_min_value utility function
 		//System.out.println(head.value);
 		//System.out.println(get_parent(root,1).value); // test get_parent utility function
