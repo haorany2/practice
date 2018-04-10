@@ -1,0 +1,164 @@
+import java.util.LinkedList;
+public class hashtable {
+	
+	double load_threashold=1.0;
+	int bins;
+	int used=0;
+	Node [] arr;
+			
+	class Node{
+		String value;
+		Node next;
+		Node(){}
+		Node(Node nt,String val){
+			value=val;
+			next=nt;
+		}
+		Node(String val){
+			value=val;
+			next=null;
+			
+		}
+	}
+	
+	
+	public int hashcode(String x){
+		int hash=11;
+		for(int i=0;i<x.length();i++){
+			
+			hash=x.charAt(i)+31*hash;
+			
+		}
+	
+		return hash;
+		
+	}
+	
+	hashtable(int init_bins, double the_load_threshold){
+		load_threashold=the_load_threshold;
+		bins=init_bins;
+		arr=new Node [bins];
+	}
+	
+	
+	Node add(String x){
+		
+		if (find_element(x)!=null)
+			return null;
+		
+		expand_arr(used+1);  
+		++used;
+		int key=get_key(x);
+		Node temp=new Node(x);
+		if (arr[key]==null)
+			arr[key]=temp;
+		else{
+		temp.next=arr[key];
+		arr[key]=temp;
+		}
+		return temp;
+	}
+	
+	Node remove(String x){
+		Node removal=find_element(x);
+		System.out.println(removal.value);
+		if(removal==null)
+			return null;
+		else{
+			if(removal.next!=null){
+				System.out.println("comein1");
+				removal.value=removal.next.value;
+				removal.next=removal.next.next;
+			}
+			else{
+				System.out.println("comein2");
+				Node prev=arr[get_key(x)];
+				Node curr=prev.next;
+				if (curr==null){
+					arr[get_key(x)]=null;
+					return prev;
+				}
+				else{
+					while (curr!=null){
+						if (curr.value!=x){
+							prev=curr;
+							curr=curr.next;
+						}
+						else{
+							prev.next=null;
+							return prev;
+							
+						}
+						
+					}
+				}
+				
+				removal=null;
+			}
+		}
+		used--;
+		return removal;
+	}
+	void display(){
+		for (int i=0;i<arr.length;i++){
+			Node temp3=arr[i];
+			while(temp3!=null){
+				System.out.print(temp3.value+"-->");
+				temp3=temp3.next;
+			}
+			System.out.println("");
+		}
+	}
+	////////////helper///////////////////////////////////
+	Node find_element(String x){//return null when cannot find x
+		int key=get_key(x);
+		System.out.println("the key num:"+key);
+		
+		if (arr[key]==null)
+			return null;
+		Node temp2=arr[key];
+		while(temp2!=null){
+			if (temp2.value==x)
+				return temp2;
+			else
+				temp2=temp2.next;
+		}
+		return temp2;
+	}
+	int get_key(String x){
+		
+		return  Math.abs(hashcode(x))%bins;
+	}
+	void expand_arr(int use){//double bins when used/ bins =threashold
+		if ((double)use/(double) bins<=load_threashold)
+			return;
+		Node [] temp=new Node[arr.length];
+		for (int i=0;i<arr.length;i++)
+			temp[i]=arr[i];
+		bins=bins*2;
+		arr=new Node[bins];
+		for (int i=0;i<temp.length;i++){
+				Node pointer=temp[i];		
+				while(pointer!=null){
+					int key=get_key(pointer.value);
+					if(arr[key]==null){
+						System.out.println(arr[key]);
+						Node curr=pointer;
+						pointer=pointer.next;
+						curr.next=null;
+						arr[key]=curr;
+					}
+					else{
+						Node curr=pointer;
+						pointer=pointer.next;
+						curr.next=arr[key];
+						arr[key]=curr;
+						
+					}
+					
+				}
+			
+		}
+	}
+/////////////////////////////////////////////////////////////
+}
