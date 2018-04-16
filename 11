@@ -1,0 +1,47 @@
+package leetcode;
+
+public class leet {
+
+
+	 public static  String reverseWords(String s) {
+		 
+	     int i=0;
+	     String result="";
+	     String temp="";
+         while(i<s.length()&&s.charAt(i)==' '){
+        	 
+     		 temp="";
+     		 i++;
+     	 }   
+	     while(i<s.length()&&s.charAt(i)!=' '){
+            temp=temp+s.charAt(i);
+            i++;
+         }
+	     result=temp+result;
+	     while(i<s.length()&&s.charAt(i)==' '){
+	     temp="";
+     	 i++;
+     	 }   
+	     while(i<s.length()){
+             while(i<s.length()&&s.charAt(i)!=' '){
+	               temp=temp+s.charAt(i);
+	               i++;
+	         }
+	         result=temp+' '+result;
+	         while(i<s.length()&&s.charAt(i)==' '){
+		        temp="";
+		        i++;
+		     }            
+	     }
+	     return result;
+	}
+	
+	public static void main(String[] args) {
+
+		
+		System.out.println(reverseWords("I love you"));
+		
+		
+	}
+
+}
