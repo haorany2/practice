@@ -1,0 +1,61 @@
+
+/*
+Given an array nums of n integers, are there elements a, b, c in nums 
+such that a + b + c = 0? Find all unique triplets in the array 
+which gives the sum of zero.
+
+Note:
+
+The solution set must not contain duplicate triplets. 
+ */
+
+
+
+package leetcode;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+public class leet {
+
+
+	
+	
+	public static void sum_zero_utility(List<List<Integer>>result, List<Integer>temp, ArrayList<Integer> nums, int pos){
+		if (temp.size()==3 && temp.get(0)+temp.get(1)+temp.get(2)==0){
+			List <Integer>add_to_result=new ArrayList<Integer>(temp);
+            Collections.sort(add_to_result);
+            if(!result.contains(add_to_result))
+                result.add(add_to_result);
+		}
+		for(int i=pos;i<nums.size();i++){
+			if(temp.size()<3){
+				temp.add(nums.get(i));
+				sum_zero_utility(result, temp,nums, i+1);
+				temp.remove(temp.size()-1);
+			}
+		}
+	}
+	
+	
+	public static List<List<Integer>> sum_zero(int [] arr){
+		ArrayList<Integer> nums=new ArrayList<Integer>();
+		for(int i:arr)
+			nums.add(i);
+		List<Integer> temp=new ArrayList<Integer> ();
+		List<List<Integer>>result=new ArrayList<List<Integer>> ();
+		sum_zero_utility(result,  temp, nums,0);	
+		return result;
+	}
+	
+	
+	public static void main(String[] args) {
+		int []arr={2,-2,0,1,2,-3,-4};
+		//System.out.println(subset(arr));
+		System.out.println(sum_zero(arr));
+
+		
+		
+	}
+
+}
