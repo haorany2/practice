@@ -1,0 +1,39 @@
+package leetcode;
+
+import java.util.ArrayList;
+
+public class leet {
+
+	//public static fit_set()
+	
+	public static void subset_utility(ArrayList<ArrayList<Integer>> result,ArrayList<Integer> temp,ArrayList<Integer> nums,int pos){
+		result.add(new ArrayList<Integer>(temp));
+		for(int i=pos;i<nums.size();i++){
+			//if(i!=pos){
+			temp.add(nums.get(i));
+			System.out.println("temp: "+temp);
+			System.out.println("pos: "+pos);
+			subset_utility(result,temp,nums,i+1);
+			temp.remove(temp.size()-1);
+			//}
+		}
+	}
+	public static ArrayList<ArrayList<Integer>> subset(int [] arr){
+		ArrayList<Integer> nums=new ArrayList<Integer>();
+		for(int i:arr)
+			nums.add(i);
+		ArrayList<Integer> temp=new ArrayList<Integer> ();
+		ArrayList<ArrayList<Integer>>result=new ArrayList<ArrayList<Integer>> ();
+		subset_utility(result,  temp, nums,0);	
+		return result;
+	}
+	
+	public static void main(String[] args) {
+		int []arr={1,2,3};
+		System.out.println(subset(arr));
+
+		
+		
+	}
+
+}
