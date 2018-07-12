@@ -1,0 +1,45 @@
+class Solution {
+    
+    
+    public void rotate(int[][] matrix) {
+        if (matrix.length==0)
+            return;
+        if (matrix.length==1)
+            return;
+        int i=0;
+        int j=matrix.length-1;
+        int check=(matrix.length+1)/2;
+        int const_check=(matrix.length+1)/2;
+        while(check>0){
+            int temp0;
+            int temp1;
+            int temp2;
+            int temp3;
+            for (int count=i+1;count<=j-1;count++){
+                temp0=matrix[const_check-check][count];
+                temp1=matrix[count][matrix.length-1-const_check+check];
+                temp2=matrix[matrix.length-1-const_check+check][matrix.length-1-count];
+                temp3=matrix[matrix.length-1-count][const_check-check];
+                
+                matrix[count][matrix.length-1-const_check+check]=temp0;
+                matrix[matrix.length-1-const_check+check][matrix.length-1-count]=temp1;
+                matrix[matrix.length-1-count][const_check-check]=temp2;
+                matrix[const_check-check][count]=temp3;
+                
+            }
+            temp0=matrix[const_check-check][i];
+            temp1=matrix[i][matrix.length-1-const_check+check];
+            temp2=matrix[matrix.length-1-const_check+check][matrix.length-1-i];
+            temp3=matrix[matrix.length-1-i][const_check-check];
+            matrix[i][matrix.length-1-const_check+check]=temp0;
+            matrix[matrix.length-1-const_check+check][matrix.length-1-i]=temp1;
+            matrix[matrix.length-1-i][const_check-check]=temp2;
+            matrix[const_check-check][i]=temp3;
+            
+            i++;
+            j--;
+            check--;
+        }
+       
+    }
+}
