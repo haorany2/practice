@@ -1,0 +1,52 @@
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
+ */
+ //Merge k sorted linked lists and return it as one sorted list. leetcode 23
+ 
+class Solution {
+    public ListNode mergeKLists(ListNode[] lists) {
+        if (lists==null || lists.length==0)
+            return null;
+        PriorityQueue <ListNode> pq=new PriorityQueue<>(new Comparator <ListNode>(){
+            @Override
+            public int compare(ListNode left,ListNode right){
+                return left.val-(right.val);
+            }
+        });
+        
+        ListNode result;
+        ListNode temp;
+        ListNode pointer;
+        for( ListNode l:lists){
+            if (l!=null)
+                pq.add(l);
+        }
+        pointer=temp=result=pq.poll();
+        if (temp!=null&&temp.next!=null){
+            temp=temp.next;
+            pq.add(temp);
+        }
+        
+        while(pq.size()!=0){
+            temp=pq.poll();
+            pointer.next=temp;
+            if (temp!=null&&temp.next!=null){
+                temp=temp.next;
+                pq.add(temp);
+            }
+            pointer=pointer.next;
+            
+        }
+        
+        return result;   
+        
+            
+            
+        
+    }
+}
