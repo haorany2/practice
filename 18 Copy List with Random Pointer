@@ -1,0 +1,35 @@
+/**
+ * Definition for singly-linked list with a random pointer.
+ * class RandomListNode {
+ *     int label;
+ *     RandomListNode next, random;
+ *     RandomListNode(int x) { this.label = x; }
+ * };
+ */
+//138
+public class Solution {
+    public RandomListNode copyRandomList(RandomListNode head) {
+        if (head==null)
+            return null;
+        RandomListNode go_through=head;
+        RandomListNode go_through2=head;
+        HashMap<RandomListNode,RandomListNode> dict=new HashMap<RandomListNode,RandomListNode>();
+        
+        RandomListNode copy=new RandomListNode(go_through.label);
+        dict.put(go_through,copy);
+        go_through=go_through.next;
+        while(go_through!=null){
+           
+            dict.put(go_through,new RandomListNode(go_through.label));
+            go_through=go_through.next;   
+        }
+        
+        while (go_through2!=null){
+            dict.get(go_through2).next=dict.get(go_through2.next);
+            dict.get(go_through2).random=dict.get(go_through2.random);
+            
+            go_through2=go_through2.next;
+        }
+        return copy;
+    }
+}
