@@ -7,6 +7,9 @@
  * };
  */
 //138
+//cause the random item cannot be reached easily, we have to put all the nodes in a hashmap.
+//The key is the original node, the value is the new node. Then, go through the linked list again, 
+//to copy all pointers
 public class Solution {
     public RandomListNode copyRandomList(RandomListNode head) {
         if (head==null)
