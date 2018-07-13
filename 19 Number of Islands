@@ -1,0 +1,84 @@
+//200
+//The question is solved with dfs (2 ways)
+//I also make another data type new_pair, kind of review how to Override a equal, but not really used here lol
+
+class Solution {
+    public int numIslands(char[][] grid) {
+        if (grid==null ||grid.length==0)
+            return 0;
+        int [][] visited=new int[grid.length][grid[0].length];
+        
+        int count=0;
+        for (int j=0;j< grid.length;j++){
+            for (int k=0;k<grid[j].length;k++){
+                if (grid[j][k]=='1'&&visited[j][k]==0){
+                    dps2(grid,visited,j,k);      //can replace to dps(should be dfs'''), but dps is slow n^2
+                    count++;              
+                }
+            }
+        }
+        return count;
+    }
+    private void dps(char[][] grid,int [][] visit,int row_num,int col_num){
+        ArrayList<new_pair> check=new ArrayList<new_pair>();
+        check.add(new new_pair(row_num,col_num));
+        while(check.size()!=0){
+            new_pair del=check.remove(0);
+            visit[del.key][del.val]=1;
+            if (del.key+1<grid.length&&grid[del.key+1][del.val]=='1'&&visit[del.key+1][del.val]==0){
+                check.add(new new_pair(del.key+1,del.val));
+                //System.out.println("come1");
+            }
+            if (del.key-1>=0 &&grid[del.key-1][del.val]=='1'&&visit[del.key-1][del.val]==0){
+                check.add(new new_pair(del.key-1,del.val));
+                //System.out.println("come2");
+            }
+            if (del.val+1<grid[0].length&&grid[del.key][del.val+1]=='1'&&visit[del.key][del.val+1]==0){
+                check.add(new new_pair(del.key,del.val+1));
+                //System.out.println("come3");
+            }
+            if (del.val-1>=0 &&grid[del.key][del.val-1]=='1'&&visit[del.key][del.val-1]==0)
+                check.add(new new_pair(del.key,del.val-1));
+        }
+    }
+    private void dps2(char[][] grid,int [][] visit,int row_num,int col_num){
+        if (row_num>=0 &&row_num<grid.length&&col_num>=0&&col_num<grid[0].length&& visit[row_num][col_num]==0&&grid[row_num][col_num]=='1'){
+            visit[row_num][col_num]=1;
+            dps2(grid,visit,row_num-1,col_num);
+            dps2(grid,visit,row_num+1,col_num);
+            dps2(grid,visit,row_num,col_num-1);
+            dps2(grid,visit,row_num,col_num+1);
+        }
+    }
+}
+
+ class new_pair{
+     int key;
+     int val;
+    public new_pair(int key, int val){
+        this.key=key;
+        this.val=val;
+    }
+    public int get_key(){
+        return key;
+    }
+    @Override 
+    public boolean equals(Object x){
+        if (this==x)
+            return true;
+        if (!(x instanceof new_pair))
+            return false;
+        new_pair y=(new_pair)x;
+        if (this.key==y.key&&this.val==y.val)
+            return true;
+        else
+            return false;
+    }
+    @Override
+     public int hashCode(){
+         int result = key;
+        result = 31 * result + val;
+        return result;
+     }
+    
+}
