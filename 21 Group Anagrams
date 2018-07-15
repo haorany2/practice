@@ -1,0 +1,31 @@
+//49
+//how to sort a string?
+//            char[] temp=strs[i].toCharArray();
+//            Arrays.sort(temp);
+//            String sorted=String.valueOf(temp);
+
+class Solution {
+    public List<List<String>> groupAnagrams(String[] strs) {
+        HashMap<String,ArrayList<String>> collect=new HashMap<String,ArrayList<String>>();
+        for (int i=0;i<strs.length;i++){
+            char[] temp=strs[i].toCharArray();
+            Arrays.sort(temp);
+            String sorted=String.valueOf(temp);
+            if (collect.get(sorted)==null){
+                ArrayList<String> val=new ArrayList<String>();
+                val.add(strs[i]);
+                collect.put(sorted,val);
+            }
+            else{
+                collect.get(sorted).add(strs[i]);
+            }
+        }
+        List<List<String>>res=new ArrayList<List<String>>();
+        Object[] key_union=collect.keySet().toArray();
+        for (int k=0;k<key_union.length;k++){
+            res.add(collect.get((String)(key_union[k])));
+        }
+        return res;
+        
+    }
+}
