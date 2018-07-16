@@ -1,0 +1,30 @@
+//139
+//dp
+//two pointer, j,k. j is the start pointer, move k till s.substring(j,k+1) is in wordDict,
+//also, check[j-1] is true, then check[k]=true (I just ignore the base situation. the index in check 
+//should add one, like the code)
+
+class Solution {
+    public boolean wordBreak(String s, List<String> wordDict) {
+        
+        if (s.length()==0)
+            return false;
+        boolean [] check=new boolean[s.length()+1];
+        check[0]=true;
+        for (int i=1;i<s.length()+1;i++){
+            check[i]=false;
+        }
+        
+        
+        for (int j=0;j<s.length();j++){
+            for (int k=j;k<s.length();k++){
+                if (wordDict.contains(s.substring(j,k+1))&& check[j]){
+                    check[k+1]=true;
+                }
+            
+            }
+            
+        }
+        return check[s.length()];
+    }
+}
