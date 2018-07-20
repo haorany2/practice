@@ -1,0 +1,42 @@
+//22
+//卡塔兰数
+//recursion/ backtracking
+
+class Solution {
+    public List<String> generateParenthesis(int n) {
+        List<String> res=new ArrayList<String>();
+        char[] curr=new char[n*2];
+        if (n==0){
+            return res;
+        }
+       
+        
+        else{
+            helper2(res,curr,n,n,0);
+        }
+        return res;
+    }
+    
+    public void helper2(List<String> res, char[] curr, int left,int right, int pos){
+        if (left<0 ||right<left)
+            return;
+        if (left==0&&right==0){
+            res.add(new String(curr));
+            
+        }
+        else{
+            if(left>0){
+                curr[pos]='(';
+                //left=left-1;
+                helper2(res,curr,left-1,right,pos+1);
+            }
+            if (right>left){
+                curr[pos]=')';
+                helper2(res,curr,left,right-1,pos+1);
+            }
+        }
+        
+    }
+    
+
+}
