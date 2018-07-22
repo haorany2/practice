@@ -1,0 +1,33 @@
+//46
+class Solution {
+    public List<List<Integer>> permute(int[] nums) {
+        
+        List<Integer> num=new ArrayList<Integer> ();
+        for (int i=0;i<nums.length;i++)
+        {
+            num.add(nums[i]);
+        }
+        List<List<Integer>> res=new ArrayList<List<Integer>>();
+        List<Integer> curr=new ArrayList<Integer>();
+        helper(num,res,curr);
+        return res;
+        
+    }
+    public void helper(List<Integer> nums,List<List<Integer>> res,List<Integer>curr){
+        if (nums.size()==0){// if we make it 1, then we need that 2//
+            //curr.add(nums.get(0));
+            res.add(new ArrayList<Integer>(curr));
+             //curr.remove(curr.size()-1);  //******IMPORTANT
+            
+            
+        }
+        for(int i=0;i<nums.size();i++){
+            curr.add(nums.get(i));
+            List<Integer> temp=new ArrayList<Integer>(nums);
+            nums.remove(i);
+            helper(nums,res,curr);
+            nums=temp;
+            curr.remove(curr.size()-1);
+        }
+    }
+}
