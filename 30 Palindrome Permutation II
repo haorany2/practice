@@ -1,0 +1,103 @@
+//267
+//backtracking
+//the hard version of permutation
+//the traditional way is too slow
+//the new way put everything in a hashmap
+//iterate the hashmap, and recursion when the val of each key  -2, do backtrack
+//automatically solve the duplicate problem
+class Solution {
+    int len;
+    public List<String> generatePalindromes(String s) {
+        // char [] our_str=s.toCharArray();
+        // Arrays.sort(our_str);
+        // String str_input=new String(our_str);
+        // List <String> res=new ArrayList <String> ();
+        // String curr=new String();
+        // helper(str_input,res,curr);
+        // return res;
+        
+        len=s.length();
+        HashMap<Character,Integer> str=new HashMap<Character,Integer>();
+        for (int f=0;f<len;f++){
+            char check=s.charAt(f);
+            if (str.get(check)==null)
+                str.put(check,1);
+            else
+                str.put(check,str.get(check)+1);
+        }
+        int valid_count=0;
+        String mid ="";
+        for (char k:str.keySet()){
+            if (str.get(k)%2==1){
+                valid_count++;
+                mid+=k;
+                
+            }
+        }
+        List <String> res=new ArrayList <String> ();
+        String curr=new String();
+        if (valid_count>1){
+            //System.out.print("fck");
+            return res;
+        }
+        if (mid=="")
+            helper(str,res,curr,0) ;
+        else
+            helper(str,res,curr+mid,1);
+        return res;
+    }
+    
+    public void helper(HashMap<Character,Integer> str, List <String> res, String curr,int pos){
+        
+        if (pos==len){
+            res.add(curr);
+        }
+        for (char k:str.keySet()){
+            if (str.get(k)>1){
+                curr=k+curr+k;
+                str.put(k,str.get(k)-2);
+                helper(str,res,curr,pos+2);
+                
+                curr=curr.substring(1,curr.length()-1);
+                str.put(k,str.get(k)+2);
+            }
+            
+        }
+    }
+    
+//     public boolean is_pal(String s){// could work , but too slow
+//         if (s.length()==0)
+//             return true;
+//         if (s.length()==1)
+//             return true;
+        
+//         if (s.charAt(0)==s.charAt(s.length()-1))
+//             return is_pal(s.substring(1,s.length()-1));
+//         else 
+//             return false;
+            
+//     }
+    
+//     public void helper(String s, List <String> res, String curr){
+//         if (s.length()==0){
+//            if (is_pal(curr)){
+//                 res.add(curr);
+//                return;
+//            }
+//            else
+//                 return;
+//         }
+        
+//         for (int i=0;i<s.length();i++){
+//             if (i!=0 &&s.charAt(i)==s.charAt(i-1))
+//                 continue;
+            
+//             curr+=s.charAt(i);
+//             String temp=new String(s);
+//             s=s.substring(0,i)+s.substring(i+1);
+//             helper(s,res,curr);
+//             s=temp;
+//             curr=curr.substring(0,curr.length()-1);
+//         }
+//     }
+}
