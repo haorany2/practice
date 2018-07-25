@@ -1,0 +1,44 @@
+//127
+//bfs
+class Solution {
+    public int ladderLength(String beginWord, String endWord, List<String> wordList) {
+        HashMap<String,Integer> track=new  HashMap<String,Integer>();
+        track.put(beginWord,0);
+        for (String k:wordList)
+            track.put(k,-1);
+        
+        int count=1;
+        ArrayList<String> bfs= new ArrayList<String>();
+        bfs.add(beginWord);
+        bfs.add(" ");
+        while (bfs.size()!=0) {
+            if (!bfs.get(0).equals(" ")){
+                String del=bfs.remove(0);
+                for (String i:wordList){
+                    if (track.get(i)==-1){
+                        int diff=0;
+                        for (int j=0;j<i.length();j++){
+                            if (i.charAt(j)!=del.charAt(j))
+                                diff++;
+                        }
+                        if (diff==1){
+                            bfs.add(i);
+                            track.put(i,count);
+                        }
+                    }
+                }
+            }
+            else{
+                bfs.remove(0);
+                if (bfs.size()!=0){
+                    bfs.add(" ");
+                    count++;
+                }
+            }
+        }
+        if (track.get(endWord)!=null && track.get(endWord)!=-1)
+            return track.get(endWord)+1;
+        else 
+            return 0;
+    }
+}
