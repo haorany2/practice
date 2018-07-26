@@ -1,0 +1,113 @@
+//have improved a lot. but still too slow
+// try out all possible next step (change one letter each time from a to z on del), 
+//put each next step to visited
+//only when the whole next level has finished, we delete all that level(visited) from unvisit
+// I control that in " "  ( big else )
+class Solution {
+    public List<List<String>> findLadders(String beginWord, String endWord, List<String> wordList) {
+        
+         List<List<String>> res=new  LinkedList<List<String>>();
+        LinkedList<String> curr= new LinkedList<String> ();
+        HashMap<String, ArrayList<String>> track=new HashMap<String, ArrayList<String>>();
+        //HashMap<String ,Integer> unvisit=new HashMap<String ,Integer> ();
+        
+        HashMap<String ,Integer> check=new HashMap<String ,Integer> ();
+        track.put(beginWord,new ArrayList<String>());
+        check.put(beginWord,-1);
+        
+        
+        
+        for(String k:wordList){
+            track.put(k,new ArrayList<String>());
+            check.put(k,-1);
+        }
+        if (track.get(endWord)==null)
+            return res;
+        ArrayList<String> temp= new ArrayList<String>();
+        
+        temp.add(beginWord);
+        temp.add(" ");
+        ArrayList<String> copy_temp=new ArrayList<String>();
+        copy_temp.add(beginWord);
+        //HashMap<String ,Integer> unvisit=new HashMap<String ,Integer> ();
+        ArrayList<String> unvisit=new ArrayList<String>(wordList);
+        ArrayList<String> visited=new ArrayList<String>();
+        while (temp.size()!=0){
+            if (!temp.get(0).equals(" ")){
+                String del=temp.remove(0);
+                check.put(del,1);
+                ArrayList<String> possible_next_step=new ArrayList<String>();
+                for(int j=0;j<del.length();j++){
+                            
+                            
+                    for (char f='a';f<='z';f++){
+                        //possible_next_step.add(del.substring(0,j)+f+del.substring(j+1));
+                        String possible_next_str=del.substring(0,j)+f+del.substring(j+1);
+                        if (unvisit.contains(possible_next_str)){
+                            if (visited.add(possible_next_str)){
+                                if (track.get(possible_next_str).size()==0){
+                                    //track.get(possible_next_str).add(del);
+                            
+                                    temp.add(possible_next_str);
+                                }
+                                track.get(possible_next_str).add(del);
+                                
+                                
+                            }
+                        }
+                        
+                    }
+                            
+                }
+                
+
+               
+            }
+            else{
+                for (int p=0;p<visited.size();p++){
+                    unvisit.remove(visited.get(p));
+                }
+                //unvisit.remove(visited);
+                //System.out.println(unvisit);
+                copy_temp=new ArrayList<String>(temp);//we dont need it anymore
+                
+                if (track.get(endWord).size()!=0){
+                    break;
+                }
+                temp.remove(0);
+                if (temp.size()!=0){
+                    
+                    
+                    temp.add(" ");
+                    
+                }
+                
+            }
+        }
+        System.out.println(track);
+        //System.out.println(count);
+        curr.addFirst(endWord);
+        dfs(track, res,curr,beginWord,endWord );
+     return res; 
+    }
+     public void dfs(HashMap<String, ArrayList<String>> track, List<List<String>>res, LinkedList<String> curr, String beginWord, String endWord){
+        if (!endWord.equals(beginWord) &&track.get(endWord).size()==0)
+            return;
+         if (endWord.equals(beginWord)){
+             //if (curr.size()==size)
+                res.add(new LinkedList<String>( curr));
+            
+             return;
+         }
+         ArrayList<String> temp=track.get(endWord);
+         
+         for (int i=0;i<temp.size();i++){
+             if (!curr.contains(temp.get(i))){
+                curr.addFirst(temp.get(i));
+                dfs(track,res, curr,beginWord, temp.get(i));
+                curr.remove(0);
+             }
+                  
+         }
+     }
+}
