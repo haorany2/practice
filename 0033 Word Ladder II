@@ -1,0 +1,80 @@
+//can not pass complicated test case
+class Solution {
+    public List<List<String>> findLadders(String beginWord, String endWord, List<String> wordList) {
+        
+         List<List<String>> res=new  LinkedList<List<String>>();
+        LinkedList<String> curr= new LinkedList<String> ();
+        HashMap<String, ArrayList<String>> track=new HashMap<String, ArrayList<String>>();
+        HashMap<String ,Integer> check=new HashMap<String ,Integer> ();
+        track.put(beginWord,new ArrayList<String>());
+        check.put(beginWord,-1);
+        
+        for(String k:wordList){
+            track.put(k,new ArrayList<String>());
+            check.put(k,-1);
+        }
+        if (track.get(endWord)==null)
+            return res;
+        ArrayList<String> temp= new ArrayList<String>();
+        temp.add(beginWord);
+        temp.add(" ");
+        int count=2;
+        while (temp.size()!=0){
+            if (!temp.get(0).equals(" ")){
+                String del=temp.remove(0);
+                check.put(del,1);
+                for(String i: wordList){
+                    if (check.get(i)==-1 &&!track.get(i).contains(del)){//!track.get(del).contains(i) &&!track.get(i).contains(del)
+                        int diff=0;
+                        for(int j=0;j<i.length();j++){
+                            if (i.charAt(j)!=del.charAt(j)){
+                                diff++;
+                            }
+                        }
+                        if (diff==1){
+                            //System.out.println(track.get(i));
+                            track.get(i).add(del);
+                            temp.add(i);
+                        }
+                    }
+                }
+               
+            }
+            else{
+                if (track.get(endWord).size()==0)
+                        count++;
+                
+                temp.remove(0);
+                if (temp.size()!=0){
+                    temp.add(" ");
+                    
+                }
+            }
+        }
+        System.out.println(track);
+        //System.out.println(count);
+        curr.addFirst(endWord);
+        dfs(track, res,curr,beginWord,endWord,count );
+     return res; 
+    }
+     public void dfs(HashMap<String, ArrayList<String>> track, List<List<String>>res, LinkedList<String> curr, String beginWord, String endWord,int size){
+        if (!endWord.equals(beginWord) &&track.get(endWord).size()==0)
+            return;
+         if (endWord.equals(beginWord)&&curr.size()==size){
+             //if (curr.size()==size)
+                res.add(new LinkedList<String>( curr));
+            
+             return;
+         }
+         ArrayList<String> temp=track.get(endWord);
+         
+         for (int i=0;i<temp.size();i++){
+             if (!curr.contains(temp.get(i))){
+                curr.addFirst(temp.get(i));
+                dfs(track,res, curr,beginWord, temp.get(i),size);
+                curr.remove(0);
+             }
+                  
+         }
+     }
+}
