@@ -1,0 +1,71 @@
+//236
+//the helper1 and helper 2 is one kind of solution
+//if p,q are one tow branch, (left!=null&&right!=null) root is the common ancester. if all in left, left is one.
+//the comment one is another (slow)
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+//         if (root==null)
+//             return null;
+//         if (root==p||root==q)
+//             return root;
+        
+//         boolean left_p=is_child(root.left,p);
+//         boolean right_q=is_child(root.right,q);
+//         boolean left_q= is_child(root.left,q);
+//         boolean right_p= is_child(root.right,p);
+//         if ((left_p&&right_q) || (left_q&&right_p)   )
+//             return root;
+//         else if (left_q&&left_p){
+//             return lowestCommonAncestor(root.left,p,q);
+//         }
+//         else if (right_q&&right_p)
+//             return lowestCommonAncestor(root.right,p,q);
+//         return null;
+    return helper(root,p,q);
+        
+    }
+    public TreeNode helper2(TreeNode root, TreeNode p, TreeNode q){
+        if(root == null) return root;
+        if(root.val == p.val || root.val == q.val) return root;
+        TreeNode one = helper2(root.left, p , q);
+        TreeNode two = helper2(root.right, p , q);
+        if(one != null && two != null) return root;
+        return one == null ? two : one;
+    }
+    public TreeNode helper(TreeNode root, TreeNode p, TreeNode q){
+        if (root==null)
+            return null;
+        if (root==p||root==q)
+            return root;
+        TreeNode left=helper(root.left,p,q);
+        TreeNode right=helper(root.right,p,q);
+        if (left!=null&&right!=null){
+            return root;
+        }
+        else if (left!=null){
+            return left;
+            
+        }
+        else
+            return right;
+    }
+    
+    public boolean is_child(TreeNode root, TreeNode check){
+        if (root==null)
+            return false;
+        if (root==check)
+            return true;
+        else{
+            return is_child(root.left,check) || is_child(root.right,check);
+        }
+    }
+}
