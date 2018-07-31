@@ -1,0 +1,43 @@
+//380
+//data structure design
+class RandomizedSet {
+    HashMap<Integer, Integer> set_lst;
+    Random rand;
+    /** Initialize your data structure here. */
+    public RandomizedSet() {
+        set_lst=new HashMap<Integer,Integer>();
+        rand=new Random();
+    }
+    
+    /** Inserts a value to the set. Returns true if the set did not already contain the specified element. */
+    public boolean insert(int val) {
+        if (set_lst.get(val)==null){
+            set_lst.put(val,1);
+            return true;
+        }
+        return false;
+    }
+    
+    /** Removes a value from the set. Returns true if the set contained the specified element. */
+    public boolean remove(int val) {
+        if (set_lst.get(val)==null)
+            return false;
+        set_lst.remove(val);
+        return true;
+    }
+    
+    /** Get a random element from the set. */
+    public int getRandom() {
+        Object[] pairs= set_lst.keySet().toArray();
+        int index=rand.nextInt(pairs.length);
+        return (Integer)pairs[index];
+    }
+}
+
+/**
+ * Your RandomizedSet object will be instantiated and called as such:
+ * RandomizedSet obj = new RandomizedSet();
+ * boolean param_1 = obj.insert(val);
+ * boolean param_2 = obj.remove(val);
+ * int param_3 = obj.getRandom();
+ */
