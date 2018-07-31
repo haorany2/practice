@@ -1,0 +1,51 @@
+//535
+public class Codec {
+
+    // Encodes a URL to a shortened URL.
+    HashMap<String,String> UrlToHash=new HashMap<String,String>(); //url to tiny url
+    HashMap<String,String> HashToUrl=new HashMap<String,String>();//key is tiny, val is long url
+    String base="http://tinyurl.com/";
+    public String encode(String longUrl) {
+        
+        String rand_pick_list="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890";
+        Random random_pick=new Random();
+        
+        
+        if (UrlToHash.get(longUrl)!=null)// if the long URL has existed, just return
+            return base+UrlToHash.get(longUrl);
+        else{
+            
+            int index;
+            String res="";
+            while(res=="" ||HashToUrl.get(res)!=null){//the tiny URL has existed, then whe add 6 more char to res
+                
+                for (int i=0;i<6;i++){
+                    
+                    index=random_pick.nextInt(rand_pick_list.length());
+                    
+                    
+                    res+=rand_pick_list.charAt(index);
+                    
+                    System.out.println(res);
+                }
+            }
+            UrlToHash.put(longUrl,res);
+            HashToUrl.put(res,longUrl);
+           
+            String ret=base+res;
+            return ret;
+        }
+        
+        
+    }
+
+    // Decodes a shortened URL to its original URL.
+    public String decode(String shortUrl) {
+        
+            return HashToUrl.get(shortUrl.substring(19));//notice:the key is not the full tiny URL, but the input is th full tiny
+    }
+}
+
+// Your Codec object will be instantiated and called as such:
+// Codec codec = new Codec();
+// codec.decode(codec.encode(url));
