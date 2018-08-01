@@ -1,0 +1,72 @@
+//381
+//design with an arraylist to put all val in it
+//design with an hashMap to put the index of each val in it{val:{index..}, val:{index,index..}}
+//one thing need to mention here: the removal; just replace the item u want to delete with the last item in the arraylist,
+//then delete the last item. the index will not go wrong
+//to remove() with Object: Integer.valueOf(int)     or it will seem to be  remove(ind)
+class RandomizedCollection {
+    HashMap<Integer,ArrayList<Integer>> lst_dict;
+    ArrayList<Integer> lst; 
+    int count;
+    Random rand;
+    
+    /** Initialize your data structure here. */
+    public RandomizedCollection() {
+        lst_dict=new HashMap<Integer,ArrayList<Integer>>();//  val:{index, index, index}
+        lst=new ArrayList<Integer>(); 
+        count=0;
+        rand=new Random();
+    }
+    
+    /** Inserts a value to the collection. Returns true if the collection did not already contain the specified element. */
+    public boolean insert(int val) {
+        if (lst_dict.get(val)!=null){
+            lst.add(val);
+            lst_dict.get(val).add(count++);
+            return false;
+        }
+        else{
+            lst.add(val);
+            ArrayList<Integer> temp=new ArrayList<Integer>();
+            temp.add(count++);
+            lst_dict.put(val,temp);
+            return true;
+        }
+    }
+    
+    /** Removes a value from the collection. Returns true if the collection contained the specified element. */
+    public boolean remove(int val) {
+        if (lst_dict.get(val)==null||lst_dict.get(val).size()==0)
+            return false;
+        
+        int ind=lst_dict.get(val).get(lst_dict.get(val).size()-1);//the last item saved in val's arraylist(it is an index)
+        lst_dict.get(val).remove(lst_dict.get(val).size()-1);//remove the last item in val's arraylist
+        if (ind!=lst.size()-1){
+            int last_val=lst.get(lst.size()-1);
+            lst .set(ind, last_val );//the last item will be put in ind position
+            int last_ind=lst.size()-1;
+            lst.remove(last_ind);//delete the last item in lst
+            ArrayList<Integer> temp=lst_dict.get(last_val);
+            temp.remove(Integer.valueOf(last_ind));//delete the last_ind item (not the last item in the temp list)
+            temp.add(ind);
+        }
+        else{
+            lst.remove(lst.size()-1);
+        }
+        count--;
+        return true;
+    }
+    
+    /** Get a random element from the collection. */
+    public int getRandom() {
+        return lst.get(rand.nextInt(lst.size()));
+    }
+}
+
+/**
+ * Your RandomizedCollection object will be instantiated and called as such:
+ * RandomizedCollection obj = new RandomizedCollection();
+ * boolean param_1 = obj.insert(val);
+ * boolean param_2 = obj.remove(val);
+ * int param_3 = obj.getRandom();
+ */
