@@ -1,0 +1,68 @@
+//43
+//cannot use recursion to solve it . I tried fking hard. recursion has more items than needed.
+//pure stupid math. take me so long
+//convert char a='1' to int: (int)a  -48     ||  (int)(a-'0')  
+//convert int a=1 to char  :    (int) (a+48)
+//cast order: (int)a-48  === ((int)a)  -48          (int)a.func====(int)(a.func)
+class Solution {
+    public String multiply(String num1, String num2) {
+       
+        // int res=helper( num1, num2, num1.length(), num2.length());
+        // String x=String.valueOf(res);
+        // return x;
+       
+        int carry=0;
+        int fill=0;
+        int num1_length=num1.length();
+        int num2_length=num2.length();
+        int count=0;
+        
+        char[] res=new char[num1_length*num2_length+1];
+        for (int k=0;k<res.length;k++){
+            res[k]='0';
+        }
+        for (int i=num1.length()-1;i>=0;i--){
+            
+            for (int j=num2.length()-1;j>=0;j--){
+                fill=(int)(num1.charAt(i)-'0')* (int)(num2.charAt(j)-'0')+(int)(res[num1_length*num2_length-num2_length+1+j-num1_length+1+i]-'0')+carry;
+                        res[num1_length*num2_length  -num2_length+1+j-num1_length+1+i]=(char)(fill%10+48);
+                        carry=fill/10;
+                    
+                    
+
+            }
+            //System.out.println(carry);
+            while (carry!=0){
+                fill=((int)(res[num1_length*num2_length-num2_length-num1_length+1+i -count])-48+carry)%10;
+                carry=((int)(res[num1_length*num2_length-num2_length-num1_length+1+i -count])-48+carry)/10;
+                res[num1_length*num2_length-num2_length-num1_length+1+i -count]=(char)(fill+48);
+                    count++;
+            }
+            count=0;
+            carry=0;
+        }
+        String temp_res=new String(res);
+        while (temp_res.length()>1&&temp_res.charAt(0)=='0')
+            temp_res=temp_res.substring(1);
+        return temp_res;
+        
+    }
+    
+//     public int helper( String num1, String num2,int num1_length,int num2_length){//not working
+//         if (num1_length==0||num2_length==0)
+//             return 0;
+//         int i=num1.charAt(0)-'0';
+//         int j=num2.charAt(0)-'0';
+//         if (num1_length==1&&num2_length==1)
+//             return 
+        
+        
+//         int i=num1.charAt(0)-'0';
+//         int j=num2.charAt(0)-'0';
+//         System.out.println((int)(i*Math.pow(10,num1_length-1)));
+//         //System.out.println(j);
+//         System.out.println( (int)(j*Math.pow(10,num2_length-1)));
+        
+//         return (int)(i*Math.pow(10,num1_length-1))* (int)(j*Math.pow(10,num2_length-1))+helper(num1.substring(1),num2,num1_length-1,num2_length)+helper(num1,num2.substring(1), num1_length,num2_length-1);
+//     }
+}
