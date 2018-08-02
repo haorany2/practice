@@ -1,0 +1,73 @@
+//56
+//sort
+/**
+ * Definition for an interval.
+ * public class Interval {
+ *     int start;
+ *     int end;
+ *     Interval() { start = 0; end = 0; }
+ *     Interval(int s, int e) { start = s; end = e; }
+ * }
+ */
+class Solution {
+    public List<Interval> merge(List<Interval> intervals) {
+        // HashMap<Integer, Interval> check=new HashMap<Integer, Interval>();
+        // Interval x;
+        // int new_start;
+        // int new_end;
+        // for (Internal i: intervals){
+        //     if (check.get(i.start)==null&&check.get(i.end)==null)
+        //         for (int k=i.start;k<=i.end;k++)
+        //             check.put(k,i);
+        //     else if (check.get(i.start)!=null&&check.get(i.end)==null){
+        //         new_start=check.get(i.start).start;
+        //         new_end=i.end;
+        //         x=new Interval( new_start,new_end);
+        //         for (int j=new_start;j<=new_end;j++)
+        //             check.put(j,x);
+        //     }
+        //     else if (check.get(i.start)==null && check.get(i.end)!=null){
+        //         new_start=i.start;
+        //         new_end=check.get(i.end).end;
+        //         x=new Interval( new_start,new_end);
+        //         for (int j=new_start;j<=new_end;j++)
+        //             check.put(j,x);
+        //     }
+        // }
+        ArrayList<Interval> res=new  ArrayList<Interval>();
+        if (intervals.size()==0)
+            return res;
+        PriorityQueue<Interval> que=new PriorityQueue<>( new Comparator<Interval>(){
+            @Override
+                public int compare(Interval left, Interval right){
+                    return left.start-right.start;
+                }
+        });
+        
+        
+        
+        for (Interval i:intervals){
+            que.add(i);
+        }
+        
+        // for (int k=1;k<que.size();k++){
+        //     if (que.get)
+        // }
+        Interval temp1=que.poll();
+        Interval temp2;
+        while(que.size()>0){
+            temp2=que.poll();
+            if (temp2.start<=temp1.end&&temp2.end>temp1.end){
+                temp1=new Interval(temp1.start,temp2.end);
+            }
+            else if (temp2.start>temp1.end){
+                res.add(temp1);
+                temp1=temp2;
+            }
+        }
+        res.add(temp1);
+        return res;
+            
+        
+    }
+}
