@@ -1,0 +1,52 @@
+
+//79
+//question:why cant I put the dps function directly in the if , like if (dps())
+class Solution {
+    public boolean exist(char[][] board, String word) {
+        if (board.length==0)
+            return false;
+        if (word.length()==0){
+            
+             return true;
+        }
+          
+        boolean ans;
+        int [][]check=new int[board.length][board[0].length];
+        for (int j=0;j<board.length;j++){
+            for (int k=0;k<board[0].length;k++){
+                if (board[j][k]==word.charAt(0)){
+                   ans=dps(board,check, word, j,k);
+                    if (ans)
+                   
+                        return true;
+                }
+                    
+            }
+        }
+        return false;
+    }
+    
+    public boolean dps(char[][]board,int [][]check,String word, int row, int col){
+        
+         boolean ans;
+        if (word.length()==0)
+            return true;
+        if (row>=board.length||row<0)
+           return false;
+        if (col>=board[0].length||col<0)
+            return false;
+        if (word.charAt(0)!=board[row][col])
+            return false;
+        if (check[row][col]==1)
+            return false;
+        else {
+            check[row][col]=1;
+            ans=dps(board, check,word.substring(1),row+1,col) ||dps(board, check,word.substring(1),row,col+1)||dps(board, check,word.substring(1),row-1,col)||dps(board, check,word.substring(1),row,col-1);
+            
+            check[row][col]=0;
+            
+        }
+           
+            return ans;
+    }
+}
