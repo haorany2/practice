@@ -1,0 +1,106 @@
+//208
+//save a hashmap in the TrieNode  HashMap <{char: TrieNode}>
+class Trie {
+
+    /** Initialize your data structure here. */
+    TrieNode trie;
+    public Trie() {
+        trie=new TrieNode(new HashMap<Character, TrieNode>());
+    }
+    
+    /** Inserts a word into the trie. */
+    public void insert(String word) {
+        if (word.length()==0)
+            return;
+        int i=0;
+        TrieNode temp=trie;
+        while(i<word.length()){
+            if (temp.trace.get(word.charAt(i))!=null){
+                temp=temp.trace.get(word.charAt(i));
+                i++;
+            }// the new one is shorter
+            
+            else{
+                 break;
+            }
+        }//i will be the first item that cannot be found in hashmap, meaning no common
+        if (i==word.length()){
+            temp.end=true;
+            return;
+        }
+        char key=word.charAt(i);//will add to temp.trace
+        TrieNode back_temp=new TrieNode(true);
+        int j=word.length()-1;
+        while(j>i){
+            //System.out.println(word.charAt(j));
+            HashMap<Character, TrieNode> inside=new HashMap<Character, TrieNode>();
+            inside.put(word.charAt(j),back_temp);
+            back_temp=new TrieNode(inside);
+            j--;
+        }
+        temp.trace.put(key,back_temp);
+        return;
+    }
+    
+    /** Returns if the word is in the trie. */
+    public boolean search(String word) {
+        int k=0;
+        TrieNode temp=trie;
+        System.out.println("come");
+        while(k<word.length()){
+            if (temp.trace.get(word.charAt(k))!=null){
+                //System.out.println(word.charAt(k));
+                temp=temp.trace.get(word.charAt(k));
+                k++;
+                //System.out.println(temp.trace);
+            }
+            else{
+                //System.out.println(temp.trace);
+                return false;
+            }
+        }
+        if (temp.end==true)
+            return true;
+        return false;
+        
+        
+    }
+    
+    /** Returns if there is any word in the trie that starts with the given prefix. */
+    public boolean startsWith(String prefix) {
+        int k=0;
+        TrieNode temp=trie;
+        while(k<prefix.length()){
+            if (temp.trace.get(prefix.charAt(k))!=null){
+                temp=temp.trace.get(prefix.charAt(k));
+                k++;
+            }
+            else
+                return false;
+        }
+        return true;
+    }
+}
+class TrieNode{
+    boolean end=false;
+   
+    HashMap<Character, TrieNode> trace;
+    TrieNode( HashMap<Character, TrieNode> y){
+       
+        trace=y;
+    }
+    TrieNode(boolean e){
+        end=e;
+        if (trace==null)
+            trace=new HashMap<Character, TrieNode>();
+    }
+    
+}
+
+/**
+ * Your Trie object will be instantiated and called as such:
+ * Trie obj = new Trie();
+ * obj.insert(word);
+ * boolean param_2 = obj.search(word);
+ * boolean param_3 = obj.startsWith(prefix);
+ */
