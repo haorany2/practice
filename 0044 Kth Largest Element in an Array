@@ -1,0 +1,52 @@
+//215 quick select
+//need to review partition
+class Solution {
+    public int findKthLargest(int[] nums, int k) {
+
+        int f;
+        f=help(nums,0,nums.length-1);
+        if (nums.length-k==f){
+            return nums[f];
+        }
+        else if (nums.length-k>f){//only right side
+            int []num_new =new int [nums.length-f-1];
+            for (int j=f+1;j< nums.length;j++){
+                num_new[j-f-1]=nums[j];
+            }
+            return findKthLargest(num_new,k);
+        }
+        else if (nums.length-k<f){//only left side
+            int []num_new =new int [f];
+            for (int j=0;j< f;j++){
+                num_new[j]=nums[j];
+            }
+            return findKthLargest(num_new,k-nums.length+f);
+        }
+        return f;
+    }
+    public int help(int[]nums,int left_edge, int right_edge){
+        int pivot=nums[right_edge];
+        int left=left_edge;
+        int right=right_edge;
+        int ans;
+        while(left<right){
+            while (left<right&&nums[left]<pivot){
+                left++;
+            }
+            while (left<right&&nums[right]>=pivot){   
+                right--;
+            }   
+           if (left<right){
+                int temp=nums[left];
+                nums[left]=nums[right];
+                nums[right]=temp;  
+           }
+        }
+        int temp2=nums[right];
+        nums[right]=nums[right_edge];
+        nums[right_edge]=temp2;
+        return right;
+        
+        
+    }
+}
