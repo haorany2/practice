@@ -1,0 +1,25 @@
+//greedy
+//A__ | A__ | A__ | A__| A  no matter what, the longest letter needs to be splitted/ If the n+1 is smaller than spot length and 
+//all letters have same length (eg:AAABBBCCC, 0), the tasks.length is the answer
+class Solution {
+    public int leastInterval(char[] tasks, int n) {
+       
+        int total=0;
+        
+        int [] still_there=new int[26];
+        for (char i: tasks){
+            still_there[(int)(i-'A')]+=1;
+        }
+        
+        Arrays.sort(still_there);
+        int group_num=still_there[25]-1;
+        total=group_num*(n+1);
+        int i=25;
+        while(i>0&&still_there[i]==still_there[25])
+            i--;
+        total+=25-i;
+       return Math.max(total,tasks.length);
+        
+        
+    }
+}
