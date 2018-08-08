@@ -1,0 +1,58 @@
+//85
+//very hard dp
+//  int[]left  for each line, the index of first "1" in continuous 1(but will choose the more mid one when the last line goes //deeper)
+//       0 0 0 1 1 1
+//       0 1 1 1 1 1    will not choose the first 1, but the third 1, becasue of the last line
+
+//int [] right  for each line, the index of the last "1" in continuous 1 (in code, we plus 1 more on index)
+class Solution {
+    public int maximalRectangle(char[][] matrix) {
+        
+        if (matrix==null || matrix.length==0)
+            return 0;
+        int []height=new int[matrix[0].length];//the height of the rect top down
+        int[] left=new int[matrix[0].length];
+        int[]right=new int [matrix[0].length];
+        Arrays.fill(right,matrix[0].length);
+        int max_area=0;
+        int left_curs=0;
+        int right_curs=matrix[0].length;
+        for (int j=0;j<matrix.length;j++){
+            
+            left_curs=0;right_curs=matrix[0].length;
+            for (int k=0;k<matrix[0].length;k++){
+                if (matrix[j][k]=='0'){
+                    height[k]=0;       
+                }
+                else{
+                    height[k]+=1;        
+                }  
+            }
+            for(int k=0;k<matrix[0].length;k++){
+                if (matrix[j][k]=='0'){
+                    left_curs=k+1;
+                    left[k]=0;
+                }
+                else{
+                    left[k]=Math.max(left_curs,left[k]);
+                }
+            }
+            for(int k=matrix[0].length-1;k>=0;k--){
+                if (matrix[j][k]=='0'){
+                    right[k]=matrix[0].length;
+                    right_curs=k;
+                }
+                else{
+                    right[k]=Math.min(right_curs,right[k]);
+                }
+            }
+            
+            for(int k=0;k<matrix[0].length;k++){
+                max_area=Math.max(max_area,(right[k]-left[k])*height[k]);
+            }
+            
+        }
+        return max_area;
+        
+    }
+}
