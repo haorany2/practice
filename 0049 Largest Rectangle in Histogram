@@ -1,0 +1,35 @@
+//84 hard as hell
+//2 1 5 6 2 3 0   
+//only count the area when heights[index]> stack.peek() the peek is the height,  then pop stack, the next peek is the
+// start index, then we get one area. and so on....
+//we dont pop the item when it is smaller than heights[index], because when we go deeper , the smaller part will be the cutoff point 
+//such as the 1 in ex. when we go to  0, stack index[5,4,1]  heights[5]*(6-1-4) ->   [4,1]  heights[4]*(6-1-1)
+
+//why like this: when heights[4] >heights[1], we will give up on heights[1], we know we heights[4]includes, 
+//the res will be larger for sure
+
+//the number in stack can be understood as the cutoff point(to get length) for each rect
+class Solution {
+    public int largestRectangleArea(int[] heights) {
+        if (heights.length==0)
+            return 0;
+        LinkedList<Integer> stack= new LinkedList<Integer>();
+        int res=0;
+        //stack.addFirst(heights[0]);
+        
+        for (int i=0;i<=heights.length;i++){
+            
+            int h= i==heights.length? 0: heights[i];  //to compare one more time for while loop in the end  
+            while(stack.size()!=0&&h<heights[stack.peek()]){
+                int height=heights[stack.removeFirst()];
+                int start= stack.size()==0?-1 : stack.peek();
+                int area=height*(i-1-start);
+                res=Math.max(res,area);
+            }
+            stack.addFirst(i);
+                
+            
+        }
+        return res;
+    }
+}
