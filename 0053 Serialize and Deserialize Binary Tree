@@ -1,0 +1,67 @@
+//297
+//backtracking /design
+//int x=Integer.parseInt(Str)
+//String x=Integer.toString(int)
+    
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+public class Codec {
+    private static String NULL = "n";
+    // Encodes a tree to a single string.
+    public String serialize(TreeNode root) {
+        if (root == null) return NULL;
+        return Integer.toString(root.val) + "," +serialize(root.left)+ ","+ serialize(root.right);
+       
+       
+    }
+
+    // Decodes your encoded data to tree.
+    public TreeNode deserialize(String data) {
+        String[] x=data.split(",");
+        LinkedList<String> xx=new LinkedList<String>(Arrays.asList(x));
+        System.out.println(data);
+        TreeNode xxx=help2(xx);
+        
+        return xxx;
+    }
+    
+//     public String help(TreeNode root){
+//         if (root==null)
+//             return " ";
+//         else{
+            
+//             return help(root.left)+(char)(root.val)+help(root.right); // (char)(root.val) wrong
+            
+//         }
+            
+//     }
+    public TreeNode help2(LinkedList<String>data){
+        
+        if (data.size()==0||data.peek().equals("n")){
+            data.poll();
+            return null;
+            
+        }
+        else{
+            TreeNode temp=new TreeNode( Integer.parseInt(data.poll()));
+            temp.left=help2(data);
+            temp. right=help2(data);
+            
+            
+            return temp;
+        }
+            
+        
+    }
+}
+
+// Your Codec object will be instantiated and called as such:
+// Codec codec = new Codec();
+// codec.deserialize(codec.serialize(root));
