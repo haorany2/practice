@@ -1,0 +1,35 @@
+//91
+//dp
+//notice  :  100  1040  return 0(when >26 and can over 10, such as 30,40, 50 directly return 0)
+class Solution {
+    public int numDecodings(String s) {
+        if (s.length()==0)
+            return 0;
+        if (s.charAt(0)=='0')
+            return 0;
+        int []res=new int[s.length()+1];
+        res[0]=1;
+        res[1]=1;
+        for (int i=1;i<s.length();i++){
+            
+            
+                String temp="";
+                temp=temp+s.charAt(i-1)+s.charAt(i);
+                int k=Integer.parseInt(temp);
+                if (k==10||k==20){
+                    res[i+1]=res[i-1];
+                }
+                else if(k>10&&k<=26){
+                    res[i+1]=res[i]+res[i-1];
+                }
+                else if ((k>26||k<10)&& k%10!=0){
+                    res[i+1]=res[i];
+                }
+                else if ((k>26||k<10)&& k%10==0){
+                    return 0;
+                }
+            
+        }
+        return res[s.length()];
+    }
+}
