@@ -1,0 +1,57 @@
+//218 hard
+//entry point : the highest is the critical point
+//leaving point: the second hightest is the critical point
+// when it is entry, add the y of it to pq, when it is leaving point, delete the -y from pq
+class Solution {
+    public List<int[]> getSkyline(int[][] buildings) {
+        List<int []>height=new ArrayList<int[]> ();
+        List<int []>ans=new ArrayList<int[]> ();
+        for(int i=0;i<buildings.length;i++){
+            height.add(new int[]{buildings[i][0],buildings[i][2]});
+        }
+        for(int i=0;i<buildings.length;i++){
+            height.add(new int[]{buildings[i][1],-buildings[i][2]});
+        }
+        
+        Collections.sort(height,new Comparator<int[]>(){
+            public int compare(int[] left,int[] right){
+                if (left[0]!=right[0])
+                    return left[0]-right[0];
+                else
+                    return right[1]-left[1];
+            }
+        });
+        for(int[]k:height){
+            System.out.print(k[0]);
+            System.out.print(" ");
+            System.out.println(k[1]);
+        }
+        Queue<Integer> pq=new PriorityQueue<>(new Comparator<Integer>(){
+            public int compare(Integer left, Integer right){
+                return right-left;
+            }
+        });
+        
+        int prev=0;
+        for(int[]k:height){
+            if (k[1]>0)
+                pq.offer(k[1]);
+            if (k[1]<0)
+                pq.remove(-k[1]);
+            
+            int check=pq.size()!=0?pq.peek():0;
+            
+            if (check!=prev){
+                ans.add(new int []{k[0],check});
+                prev=check;
+            }
+                
+            
+        }
+        
+        return ans;
+        
+    }
+    
+    
+}
