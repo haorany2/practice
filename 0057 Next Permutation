@@ -1,0 +1,54 @@
+//leet 31
+//when tracing back    it goes bigger till the end , such as  5,4,3,2,1, we reverse the whole thing to 1,2,3,4,5
+//when tracing back, it goes bigger, the pointer moves till we got a smaller one,  such as 2,5,4,3,1
+//we put pointer to 2, then, trace back from end to the pointer (5,4,3,1), find the first item that is larger than the thing save
+//in our pointer.(it is 3 here). Now, we replace 3 and 2  (3,5,4,2,1). then, we reverse the array after the index (3,1,2,4,5)
+class Solution {
+    public void nextPermutation(int[] nums) {
+        if (nums.length==0||nums.length==1)
+            return ;
+        int temp=nums[nums.length-1];
+        int index=-1;
+        for (int i=nums.length-2;i>=0;i--){
+            if (nums[i]>=temp){
+                temp=nums[i];
+            }
+            else{
+                index=i;
+                break;
+            }
+                
+        }
+        if (index==-1){
+            for (int k=0;k<nums.length/2;k++){
+                int temp2=nums[k];
+                nums[k]=nums[nums.length-1-k];
+                nums[nums.length-1-k]=temp2;
+                
+            }
+            
+        }
+        
+        else{
+            for (int k=nums.length-1;k>index;k--){
+                if (nums[index]<nums[k]){
+                    int temp3=nums[index];
+                    nums[index]=nums[k];
+                    nums[k]=temp3;
+                    break;
+                }
+            }
+            
+            
+            for (int j=index+1;j<=index+1+(nums.length-1-index-1)/2;j++){
+                int temp4=nums[j];
+                
+                nums[j]=nums[nums.length-1-(j-index-1)];
+                nums[nums.length-1-(j-index-1)]=temp4;
+                
+            }
+        }
+        
+        
+    }
+}
