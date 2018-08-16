@@ -1,0 +1,49 @@
+//253
+//similiar to skyline problem
+
+/**
+ * Definition for an interval.
+ * public class Interval {
+ *     int start;
+ *     int end;
+ *     Interval() { start = 0; end = 0; }
+ *     Interval(int s, int e) { start = s; end = e; }
+ * }
+ */
+class Solution {
+    public int minMeetingRooms(Interval[] intervals) {
+        if(intervals.length==0)
+            return 0;
+        if(intervals.length==1)
+            return 1;
+        List<Interval> lst=new ArrayList<Interval>();
+        for (Interval k:intervals){
+            lst.add(k);
+        }
+        Collections.sort(lst, new Comparator<Interval>(){
+            public int compare(Interval left, Interval right){
+                return left.start-right.start;
+            }
+        });
+        
+        Queue <Interval>pq=new PriorityQueue<>(new Comparator<Interval>(){
+            public int compare(Interval left,Interval right){
+                return left.end-right.end;
+            }
+                
+        });
+        int res=1;
+        pq.offer(lst.get(0));
+        lst.remove(0);
+        for(Interval i:lst){
+            while(pq.size()!=0&&i.start>=pq.peek().end){
+                pq.poll();
+                
+            }   
+            pq.offer(i);
+            res=Math.max(res,pq.size());    
+                
+        }
+        return res;
+    }
+}
