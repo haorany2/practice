@@ -1,0 +1,41 @@
+// binary add recursion total=tatal+total
+//be careful with Integer.MAX_VALUE and Integer.MIN_VALUE
+//Integer.MAX_VALUE +1 ==Integer.MIN_VALUE
+//Integer.MIN_VALUE-1=Integer.Max_VALUE
+class Solution {
+    public int divide(int dividend, int divisor) {
+        if (dividend==0)
+             return 0; 
+        if (dividend>0&&divisor>0){
+            return -helper(-dividend,-divisor);
+        }
+        else if (dividend>0&&divisor<0)
+            return helper(-dividend,divisor);
+        
+        else if (dividend<0&&divisor>0)
+            return helper(dividend,-divisor); 
+        else{
+            if (dividend==Integer.MIN_VALUE&&divisor==-1)
+                return Integer.MAX_VALUE;
+            return -helper(dividend,divisor);
+        }
+            
+    }
+    public int helper(int dividend, int divisor){//for neg,neg
+       
+        if (dividend>divisor)
+            return 0;
+        
+        int total=divisor;
+        int mul=-1;
+        while(total+total>=dividend&&total+total<0){
+            total=total+total;
+            mul=mul+mul;
+        }
+        
+        return mul+helper(dividend-total,divisor);
+    }
+   
+        
+    
+}
