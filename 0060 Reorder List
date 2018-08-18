@@ -1,0 +1,56 @@
+//143
+//I save the back tracing one to a hashtable
+//hashmap defaultly recognized the same key based on location, so even I change the thing inside the node, 
+//it is still the same node
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public void reorderList(ListNode head) {
+      
+        if (head==null||head.next==null||head.next.next==null) return ;
+        HashMap<ListNode,ListNode> dict=new HashMap<ListNode, ListNode>();
+        ListNode last=null;
+        ListNode first=head;
+        ListNode ans=head;
+        while(head.next!=null){
+            dict.put(head.next,head);
+            head=head.next;
+            if (head.next==null)
+                last=head;
+        }
+        ListNode temp=first.next;
+        first.next=last;
+        first=temp;
+      
+        while (dict.get(last)!=first&&first.next!=  dict.get(last)){
+            temp=first.next;
+            last.next=first;
+            last=dict.get(last);
+            if (first!=last&&first.next!=last){
+                first.next=last;
+                first=temp;
+                System.out.println(dict.get(last).val);
+                System.out.println(first.val);
+            }
+            else
+                break;
+            
+        }
+        if (dict.get(last)==first){
+            last.next=first;
+            first.next=null;
+        }
+        if (dict.get(last)!=first){
+            last.next=first;
+            first.next=dict.get(last);
+            first.next.next=null;
+        }
+        
+    }
+}
