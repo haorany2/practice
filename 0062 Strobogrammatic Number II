@@ -1,0 +1,72 @@
+//247
+//another way to handle 0, in help function, we have another int varable m=n (dont change m), we try to
+//make n-2, if (n != m) res.add("0" + s + "0"); when n==m, it is the outside one, we dont have 0 term
+class Solution {
+    public List<String> findStrobogrammatic(int n) {
+        List<String>res=new ArrayList<String>();
+         List<String>res2=new ArrayList<String>();
+        if (n==1){
+            
+            res.add("0");
+            res.add("1");
+            res.add("8");
+            return res;
+        }
+//         if (n==2){
+//             res.add("11");
+//             res.add("88");
+//             res.add("69");
+//             res.add("96");
+//             return res;
+//         }
+        help(n,res);
+       
+        for (String i:res){
+            if (i.charAt(0)!='0')
+                res2.add(i);
+        }
+        return res2;
+            
+        
+    }
+    public void help(int n,List<String>res){
+        if (n==1){
+            res.add("1");
+            res.add("8"); 
+            res.add("0"); 
+            return;
+            
+        }
+        if (n==2){
+            res.add("11");
+            res.add("88");
+            res.add("69");
+            res.add("96");
+            res.add("00");
+            return;
+            
+        }
+        else {
+            
+            //List<String >temp=new ArrayList<String>(res);
+           // res.clear();
+            
+            help(n-2,res);
+            List<String>temp=new ArrayList<String>(res);
+            int len=temp.size();
+            res.clear();
+            for (int i=0;i<len;i++){
+                res.add("1"+temp.get(i)  +"1");
+                res.add("8"+temp.get(i)  +"8");
+                res.add("6"+temp.get(i)  +"9");
+                res.add("9"+temp.get(i)  +"6");
+                res.add("0"+temp.get(i)  +"0");
+                    
+            }
+            temp.clear();
+            return;
+            
+        }
+        
+    }
+}
