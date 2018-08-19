@@ -1,0 +1,23 @@
+//560 kind of hard for me
+//when we have a new sum, we count 1 in hashmap count, if we have (-1,1,-1), we can have the same sum twice,then the val is 2
+//res=res+ hashmap[sum-k].  when we go to sum =nums[0]+..nums[j]..+nums[i] , we want to delete nums[0]...nums[j], 
+//and this part is hashmap[sum-k] ways
+class Solution {
+    public int subarraySum(int[] nums, int k) {
+        
+        HashMap<Integer,Integer> count=new HashMap<Integer,Integer>();//count how many ways to get a sum
+        int res=0;
+        count.put(0,1);
+        int sum=0;
+        for (int i=0;i<nums.length;i++){
+            sum+=nums[i];
+            res+=count.getOrDefault(sum-k,0);
+            count.put(sum,count.getOrDefault(sum,0)+1);//each time, when we read it , it means we 
+            
+            
+        }
+        return res;
+        
+    }
+    
+}
