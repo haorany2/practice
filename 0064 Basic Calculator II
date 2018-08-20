@@ -1,0 +1,70 @@
+//227
+class Solution {
+    public int calculate(String s) {
+        LinkedList<Integer> res=new LinkedList<Integer>();
+        String one_num="";
+        int left=0;
+        int right=0;
+        while (right<s.length()&&s.charAt(right)==' '){
+            //left++;
+            right++;
+        }
+        while(right<s.length()&&Character.isDigit(s.charAt(right))){
+            one_num+=Character.toString(s.charAt(right));
+            right++;
+        }
+            
+        if (!one_num.equals("")){
+            res.addFirst(Integer.parseInt(one_num));
+        }
+        else
+            return 0;
+        while(right<s.length()){
+            if (s.charAt(right)==' '){
+                left++;
+                right++;
+            }
+            
+            if(right<s.length()&&(s.charAt(right)=='*'||s.charAt(right)=='/'||s.charAt(right)=='+'||s.charAt(right)=='-')){
+                left=right;
+                right++;
+                one_num="";
+                while (right<s.length()&&s.charAt(right)==' '){
+                    right++;
+                }
+                while(right<s.length()&&Character.isDigit(s.charAt(right))){
+                    one_num+=Character.toString(s.charAt(right));
+                    right++;
+                }
+                
+                if (s.charAt(left)=='*'){
+                    int k=res.poll();
+                    res.addFirst(k* Integer.parseInt(one_num));
+                }
+                else if (s.charAt(left)=='/'){
+                    int k=res.poll();
+                    res.addFirst(k/ Integer.parseInt(one_num));
+                }
+                else if (s.charAt(left)=='+'){
+                    
+                    res.addFirst( Integer.parseInt(one_num));
+                }
+                else if (s.charAt(left)=='-'){
+                    
+                    res.addFirst( -Integer.parseInt(one_num));
+                }
+                
+            }
+            
+           
+        }
+        
+        
+        int sum=0;
+        for (Integer f:res){
+            sum+=f;
+            
+        }
+        return sum;
+    }
+}
