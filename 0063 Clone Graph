@@ -1,0 +1,73 @@
+//133
+//use hashmap to trace,  //the hashmap val is the copied one
+//2 ways to do it
+
+/**
+ * Definition for undirected graph.
+ * class UndirectedGraphNode {
+ *     int label;
+ *     List<UndirectedGraphNode> neighbors;
+ *     UndirectedGraphNode(int x) { label = x; neighbors = new ArrayList<UndirectedGraphNode>(); }
+ * };
+ */
+public class Solution {
+    
+    HashMap<UndirectedGraphNode,UndirectedGraphNode> trace;
+    public UndirectedGraphNode cloneGraph(UndirectedGraphNode node) {
+        trace=new HashMap<UndirectedGraphNode,UndirectedGraphNode>();
+        if (node==null)
+            return null;
+        UndirectedGraphNode node2=new UndirectedGraphNode(node.label);
+        trace.put(node,node2);
+        //dfs(node, node2,trace);
+          //return trace.get(node);
+        //return node2;
+        node2= dfs2(node,trace);
+        
+        return node2;
+            
+    }
+    //the hashmap val is the copied one
+    public void dfs(UndirectedGraphNode node1,UndirectedGraphNode node2,HashMap<UndirectedGraphNode,UndirectedGraphNode> trace){
+        if (node1==null)
+            return;
+        for(UndirectedGraphNode i:node1.neighbors){
+            if(trace.get(i)==null){
+                UndirectedGraphNode temp=new UndirectedGraphNode(i.label);
+                node2.neighbors.add(temp);
+                trace.put(i,temp);
+                dfs(i,temp,trace);
+                //node2.neighbors.get(node2.neighbors.size()-1)  //we could use temp, or put this line in teh temp part
+            }
+            else{
+                node2.neighbors.add(trace.get(i));
+            }
+            
+        }
+        //trace.put(node,copy);
+        return;
+    }
+     public UndirectedGraphNode dfs2(UndirectedGraphNode node1,HashMap<UndirectedGraphNode,UndirectedGraphNode> trace){
+        if (node1==null)
+            return null;
+        UndirectedGraphNode temp=new UndirectedGraphNode(node1.label);      
+        trace.put(node1,temp);
+             
+        for(UndirectedGraphNode i:node1.neighbors){
+            if(trace.get(i)==null){
+                trace.get(node1).neighbors.add(dfs2(i,trace));
+                //return dfs2(i,trace);
+                
+                
+                
+            }
+            else{
+                trace.get(node1).neighbors.add( trace.get(i));
+            }
+            
+        }
+         return trace.get(node1);
+        //trace.put(node,copy);
+        
+    }
+}
