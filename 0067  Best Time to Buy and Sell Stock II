@@ -1,0 +1,27 @@
+//122 greedy 
+class Solution {
+    public int maxProfit(int[] prices) {
+        if (prices.length<=1)
+            return 0;
+        int left=0;
+        int right=0;
+        int max=0;
+        while(right<prices.length-1){
+            
+            while (right<prices.length-1&&prices[right+1]>prices[right]){
+                right++;
+            }
+
+            max+=prices[right]-prices[left];
+            //}
+            left=right;
+            while(right<prices.length-1&&prices[left+1]<=prices[left]){
+                left++;
+                right++;
+            }
+        }
+        return max;
+        
+        
+    }
+}
