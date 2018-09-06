@@ -1,0 +1,50 @@
+//41
+//save the value to its index
+//[3,4,-1,1] and temp = 0
+//[3,4,3,1] and temp = -1  when temp<0 or temp>nums.length, temp=0, when temp=0; use count to check nect in arr
+//[3,4,3,4], temp=1
+//[1,4,3,4]   so we end at 2
+
+class Solution {
+    public int firstMissingPositive(int[] nums) {
+        if (nums.length==0)
+            return 1;
+        int count = 0;
+        int temp=0;
+        while(count<nums.length){
+            if(temp>0){
+                if(temp<nums.length+1 &&nums[temp-1]!=temp){
+                    int replace=nums[temp-1];
+                    nums[temp-1]=temp;
+                    temp=replace;
+                }
+                else{
+                    temp=0;
+                    
+                }
+                
+            }
+            else{
+                if (nums[count]-1<nums.length&&nums[count]-1>=0  && nums[nums[count]-1]!=nums[count] ){
+                    int replace=nums[nums[count]-1];
+                    
+                    nums[nums[count]-1]=nums[count];
+                    temp=replace;
+                    
+                    count++;
+                }
+                else{
+                    
+
+                    count++;
+                }
+            }
+        }
+        for(int i=0;i<nums.length;i++){
+            System.out.println(nums[i]);
+            if (nums[i]!=i+1)
+                return i+1;
+        }
+        return nums.length+1;
+    }
+}
