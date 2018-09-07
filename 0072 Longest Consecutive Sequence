@@ -1,0 +1,25 @@
+//128
+//can use find union 
+// i use a hashmap, count the (num, length)
+//left to see :as to n-1, the length of consecutive nums on the left side; 
+//right to see:as to n+1 , the length of consecutive nnums on the right side
+//then change the edge n-left and n+right to the new length
+class Solution {
+    public int longestConsecutive(int[] nums) {
+        HashMap<Integer,Integer>range=new HashMap<Integer,Integer>();
+        int max=0;
+        for (int n:nums){
+            if(range.get(n)==null){
+                int left=(range.get(n-1)!=null)?range.get(n-1):0;
+                int right=(range.get(n+1)!=null)?range.get(n+1):0;
+                range.put(n,1+left+right);
+                
+                max=Math.max(1+left+right,max);
+                
+                range.put(n-left,1+left+right);//current n-left is the left edge
+                range.put(n+right,1+left+right);
+            }
+        }
+        return max;
+    }
+}
