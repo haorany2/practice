@@ -1,0 +1,30 @@
+//287
+//hard to think, not binary search for index, but the value
+class Solution {
+    public int findDuplicate(int[] nums) {
+        
+            
+        
+        
+        
+        int low=1;//when we have 5 nums, from 1 to 4 as required, so, it is 1
+        int high=nums.length-1;
+        while(low<high){
+            int mid=(high+low)/2;//could add one inside to get 1 more for even length
+            int count=0;
+            for (int i=0;i<nums.length;i++){//to see we have more larger half num, or smaller half num
+                if (nums[i]<=mid)
+                    count++;
+                
+            }
+            if (count>=mid+1)  { //smaller num is more than half  (if we have 5 nums, at least 3 nums, then go smaller half)
+                high=mid;
+            }    
+            else
+                low=mid+1;
+        }
+        return high;
+        
+        
+    }
+}
