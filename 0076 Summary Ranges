@@ -1,0 +1,54 @@
+//228
+class Solution {
+    public List<String> summaryRanges(int[] nums) {
+        List<String> res=new ArrayList<String>();
+        String temp="";
+        int left=0;
+        int right=0;
+        
+        while (right<nums.length){
+            if (right==nums.length-1){//this handle the last item
+                if(left==right){
+                    temp=Integer.toString(nums[left]);
+                }
+                else{
+                    temp=Integer.toString(nums[left]);
+                    temp+="->";
+                    temp+=Integer.toString(nums[right]);
+                }
+                res.add(temp);
+                right++;
+                left=right;
+                //now we can break
+                //or we just use break to handle, then we dont need to right++, and we can use while(true)
+            }
+            
+            
+            
+            else if (nums[right+1]-1==nums[right]){
+                right++;
+            }
+            
+            
+            
+            else{
+                if(left==right){
+                    temp=Integer.toString(nums[left]);
+                }
+                else{
+                    temp=Integer.toString(nums[left]);
+                    temp+="->";
+                    temp+=Integer.toString(nums[right]);
+                }
+                res.add(temp);
+                right++;
+                left=right;
+               
+            }
+            
+        }
+        
+        return res;
+        
+    }
+}
